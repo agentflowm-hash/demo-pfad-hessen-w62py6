@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pfad-Hessen - Schreinerei, Möbelbau, Innenausbau</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1863dc;
+      --primary-dark: #1558b8;
+      --primary-light: #4a8be6;
+      --bg: #f8fafc;
+      --bg-alt: #f1f5f9;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.08);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+    .container { max-width:1140px; margin:0 auto; padding:0 24px; }
+    section { padding:80px 0; }
+    section:nth-child(even) { background:var(--bg-alt); }
+    h1 { font-size:clamp(2.25rem,5vw,3.25rem); font-weight:800; line-height:1.15; color:var(--text); }
+    h2 { font-size:clamp(1.75rem,4vw,2.25rem); font-weight:700; line-height:1.2; color:var(--text); margin-bottom:16px; }
+    h3 { font-size:1.25rem; font-weight:600; color:var(--text); }
+    p { font-size:1rem; line-height:1.7; color:var(--text-muted); }
+    .section-subtitle { font-size:1.125rem; color:var(--text-muted); max-width:600px; margin:0 auto 48px; }
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:14px 32px;
+      font-size:1rem;
+      font-weight:600;
+      border-radius:var(--radius);
+      text-decoration:none;
+      transition:all .25s ease;
+      cursor:pointer;
+      border:none;
+    }
+    .btn-primary {
+      background:var(--primary);
+      color:#fff;
+      box-shadow:0 4px 14px rgba(0,0,0,.15);
+    }
+    .btn-primary:hover {
+      background:var(--primary-dark);
+      transform:translateY(-3px);
+      box-shadow:0 8px 25px rgba(0,0,0,.2);
+    }
+    .btn-outline {
+      background:transparent;
+      color:var(--text);
+      border:2px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color:var(--primary);
+      color:var(--primary);
+    }
+    .card {
+      background:var(--surface);
+      border-radius:var(--radius);
+      padding:32px;
+      border:1px solid var(--border);
+      transition:all .3s ease;
+    }
+    .card:hover {
+      transform:translateY(-6px);
+      box-shadow:var(--shadow-lg);
+      border-color:transparent;
+    }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:32px; }
+    .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .grid-4 { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+    @media (max-width:1024px){ .grid-3,.grid-4{grid-template-columns:repeat(2,1fr);} }
+    @media (max-width:768px){ .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} section{padding:60px 0;} .container{padding:0 16px;} }
+    header {
+      background:var(--surface);
+      padding:16px 0;
+      border-bottom:1px solid var(--border);
+      position:relative;
+    }
+    .header-inner {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .logo {
+      font-size:1.5rem;
+      font-weight:800;
+      color:var(--text);
+      text-decoration:none;
+    }
+    .nav-links {
+      display:flex;
+      gap:32px;
+      list-style:none;
+    }
+    .nav-links a {
+      color:var(--text-muted);
+      text-decoration:none;
+      font-weight:500;
+      transition:color .2s;
+    }
+    .nav-links a:hover { color:var(--primary); }
+    .mobile-toggle {
+      display:none;
+      font-size:1.5rem;
+      cursor:pointer;
+      color:var(--text);
+    }
+    @media (max-width:768px){
+      .nav-links {
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        background:var(--surface);
+        flex-direction:column;
+        align-items:center;
+        max-height:0;
+        overflow:hidden;
+        transition:max-height .3s ease;
+      }
+      .nav-links.active { max-height:300px; }
+      .mobile-toggle { display:block; }
+    }
+    .hero {
+      padding:100px 0 80px;
+      background:linear-gradient(180deg,var(--bg) 0%,var(--surface) 100%);
+      text-align:center;
+    }
+    .hero-badge {
+      display:inline-block;
+      padding:8px 20px;
+      background:var(--primary-light);
+      color:var(--primary);
+      border-radius:100px;
+      font-size:.875rem;
+      font-weight:600;
+      margin-bottom:24px;
+    }
+    .hero h1 { max-width:800px; margin:0 auto 20px; }
+    .hero p { max-width:600px; margin:0 auto 32px; font-size:1.125rem; }
+    .hero-buttons { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+    .hero-image {
+      margin-top:60px;
+      max-width:900px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    .hero-image img {
+      width:100%;
+      border-radius:16px;
+      box-shadow:0 25px 80px rgba(0,0,0,.15);
+    }
+    .trust-bar {
+      background:var(--surface);
+      padding:24px 0;
+      border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+    }
+    .trust-items {
+      display:flex;
+      justify-content:center;
+      gap:48px;
+      flex-wrap:wrap;
+    }
+    .trust-item {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:var(--text-muted);
+      font-size:.9rem;
+      font-weight:500;
+    }
+    .trust-item i { color:var(--primary); }
+    .benefits { text-align:center; margin-top:40px; }
+    .benefit { display:flex; flex-direction:column; align-items:center; }
+    .benefit-icon {
+      width:64px;
+      height:64px;
+      background:var(--primary-light);
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:20px;
+    }
+    .benefit-icon i { font-size:1.5rem; color:var(--primary); }
+    .benefit h3 { margin-bottom:12px; color:var(--text); }
+    .benefit p { color:var(--text-muted); }
+    .services { margin-top:40px; }
+    .service-card {
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:32px;
+      transition:all .3s ease;
+    }
+    .service-card:hover {
+      transform:translateY(-6px);
+      box-shadow:var(--shadow-lg);
+      border-color:transparent;
+    }
+    .service-icon {
+      width:64px;
+      height:64px;
+      background:var(--primary-light);
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:20px;
+    }
+    .service-icon i { font-size:1.5rem; color:var(--primary); }
+    .service-card h3 { margin-bottom:16px; color:var(--text); }
+    .service-card p { color:var(--text-muted); }
+    .steps {
+      display:flex;
+      justify-content:center;
+      gap:60px;
+      flex-wrap:wrap;
+    }
+    .step {
+      text-align:center;
+      max-width:280px;
+    }
+    .step-number {
+      width:56px;
+      height:56px;
+      background:var(--primary);
+      color:#fff;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:1.25rem;
+      font-weight:700;
+      margin:0 auto 20px;
+    }
+    .faq-item {
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:24px;
+      margin-bottom:16px;
+    }
+    .faq-question {
+      font-weight:600;
+      color:var(--text);
+      margin-bottom:12px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .faq-question i { color:var(--primary); }
+    .faq-answer { color:var(--text-muted); line-height:1.7; }
+    .cta-section {
+      background:var(--primary);
+      padding:80px 0;
+      text-align:center;
+    }
+    .cta-section h2 { color:#fff; margin-bottom:16px; }
+    .cta-section p { color:rgba(255,255,255,.85); margin-bottom:32px; }
+    .cta-section .btn { background:#fff; color:var(--primary); }
+    footer {
+      background:var(--text);
+      color:rgba(255,255,255,.7);
+      padding:40px 0;
+      text-align:center;
+    }
+    footer a {
+      color:rgba(255,255,255,.7);
+      text-decoration:none;
+    }
+    footer a:hover { color:#fff; }
+    .footer-links {
+      margin-bottom:16px;
+    }
+    .footer-links a {
+      margin:0 16px;
+    }
+    script>
+      const toggle = document.querySelector('.mobile-toggle');
+      const nav = document.querySelector('.nav-links');
+      if (toggle && nav) {
+        toggle.addEventListener('click', () => nav.classList.toggle('active'));
+      }
+    </script>
+  </style>
+
+<script id="wz-kontakt-script">
+document.addEventListener('DOMContentLoaded', function() {
+  var forms = document.querySelectorAll('form');
+  forms.forEach(function(form) {
+    if (form.__wzBound) return;
+    if (form.querySelector('input[type="email"]') && form.querySelector('textarea')) {
+      form.__wzBound = true;
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var fd = new FormData(form);
+        var data = {
+          name: fd.get('name') || fd.get('Name') || '',
+          email: fd.get('email') || fd.get('Email') || '',
+          phone: fd.get('phone') || fd.get('telefon') || '',
+          message: fd.get('message') || fd.get('nachricht') || '',
+          firma: 'Pfad-Hessen',
+          demo_url: window.location.href
+        };
+        var btn = form.querySelector('button[type="submit"], input[type="submit"]');
+        if (btn) btn.disabled = true;
+
+        fetch('https://6aa2-31-17-18-172.ngrok-free.app/webhook/kontakt-formular', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(res){
+          alert(res && res.success ? 'Danke! Wir melden uns.' : 'Fehler: ' + (res && res.message ? res.message : 'Unbekannt'));
+          if (res && res.success) form.reset();
+        })
+        .catch(function(){
+          alert('Fehler. Bitte kontakt@agentflowm.de kontaktieren.');
+        })
+        .finally(function(){
+          if (btn) btn.disabled = false;
+        });
+      });
+    }
+  });
+});
+</script>
+
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a href="#" class="logo">Pfad-Hessen</a>
+      <ul class="nav-links">
+        <li><a href="#">Startseite</a></li>
+        <li><a href="#">Leistungen</a></li>
+        <li><a href="#">Referenzen</a></li>
+        <li><a href="#">Kontakt</a></li>
+      </ul>
+      <button class="mobile-toggle"><i class="fa-solid fa-bars"></i></button>
+      <a href="#" class="btn btn-primary">Jetzt anfragen</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">Schreinerei, Möbelbau, Innenausbau in Frankfurt</div>
+      <h1>Individuelle Schreinerlösungen für Ihr Zuhause</h1>
+      <p>Nachhaltige Materialien, exakte Verarbeitung und termingerechte Umsetzung – vom Entwurf bis zur Montage.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn btn-primary">Jetzt anfragen</a>
+        <a href="#" class="btn btn-outline">Termin vereinbaren</a>
+      </div>
+      <div class="hero-image">
+        <img src="https://picsum.photos/900/500?random=1" alt="Schreinerei">
+      </div>
+    </div>
+  </section>
+
+  <section class="trust-bar">
+    <div class="container">
+      <div class="trust-items">
+        <div class="trust-item"><i class="fa-solid fa-bullhorn"></i> Kostenlose Erstberatung</div>
+        <div class="trust-item"><i class="fa-solid fa-stopwatch"></i> Schnelle Umsetzung</div>
+        <div class="trust-item"><i class="fa-solid fa-euro-sign"></i> Faire Festpreise</div>
+        <div class="trust-item"><i class="fa-solid fa-user-tie"></i> Persönlicher Ansprechpartner</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="benefits">
+    <div class="container">
+      <div class="grid-3">
+        <div class="benefit">
+          <div class="benefit-icon"><i class="fa-solid fa-leaf"></i></div>
+          <h3>Nachhaltige Materialien</h3>
+          <p>Wir verwenden FSC-zertifiziertes Holz und umweltfreundliche Lacke.</p>
+        </div>
+        <div class="benefit">
+          <div class="benefit-icon"><i class="fa-solid fa-ruler"></i></div>
+          <h3>Präzise Fertigung</h3>
+          <p>Modernste CNC-Technik garantiert höchste Genauigkeit.</p>
+        </div>
+        <div class="benefit">
+          <div class="benefit-icon"><i class="fa-solid fa-calendar-check"></i></div>
+          <h3>Termingerechte Lieferung</h3>
+          <p>Planung und Umsetzung nach Ihrem Zeitplan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="services">
+    <div class="container">
+      <div class="grid-4">
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-cabinet-side"></i></div>
+          <h3>Möbeltischlerei</h3>
+          <p>Individuell angepasste Schränke, Regale und Tische.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-window-restore"></i></div>
+          <h3>Innenausbau</h3>
+          <p>Wand- und Deckenverkleidungen, Fußböden und mehr.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-kitchen-set"></i></div>
+          <h3>Küchenplanung</h3>
+          <p>Maßgeschneiderte Küchen nach Ihren Wünschen.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fa-solid fa-staircase"></i></div>
+          <h3>Treppenbau</h3>
+          <p>Elegant gestaltete Treppen aus Holz.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="steps">
+    <div class="container">
+      <div class="step">
+        <div class="step-number">①</div>
+        <h3>Planung</h3>
+        <p>Gemeinsame Ideenentwicklung und Konzept erstellen.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">②</div>
+        <h3>Umsetzung</h3>
+        <p>Handwerkliche Fertigung und Montage mit höchster Qualität.</p>
+      </div>
+      <div class="step">
+        <div class="step-number">③</div>
+        <h3>Abnahme</h3>
+        <p>Individuelle Abstimmung und Zufriedenheitsgarantie.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="container">
+      <h2 class="section-subtitle">Häufig gestellte Fragen</h2>
+      <div class="grid-2">
+        <div class="faq-item">
+          <div class="faq-question"><i class="fa-solid fa-question"></i>Wie lange dauert die Umsetzung eines Projekts?</div>
+          <div class="faq-answer">Die Dauer hängt von der Komplexität ab, typische Projekte werden innerhalb von 4-6 Wochen abgeschlossen.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><i class="fa-solid fa-question"></i>Welche Holzarten stehen zur Auswahl?</div>
+          <div class="faq-answer">Wir bieten Eiche, Buche, Kiefer und nachhaltig zertifizierte Hölzer in verschiedenen Oberflächen.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><i class="fa-solid fa-question"></i>Ist eine kostenlose Beratung möglich?</div>
+          <div class="faq-answer">Ja, wir bieten eine kostenfreie Vor-Ort-Beratung an, um Ihre Wünsche genau zu erfassen.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><i class="fa-solid fa-question"></i>Wie transparent sind die Kosten?</div>
+          <div class="faq-answer">Alle Preise werden klar kommuniziert, es gibt keine versteckten Gebühren.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Jetzt gemeinsam durchstarten</h2>
+      <p>Überzeugen Sie sich von unserer Expertise und gestalten Sie Ihr individuelles Wohnkonzept mit Pfad-Hessen.</p>
+      <div class="hero-buttons">
+        <a href="#" class="btn btn-primary">Jetzt anfragen</a>
+        <a href="#" class="btn btn-outline">Kontaktieren Sie uns</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Pfad-Hessen. Alle Rechte vorbehalten.</p>
+      <div class="footer-links">
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+        <a href="#">AGB</a>
+      </div>
+    </div>
+  </footer>
+
+<div id="wz-banner" style="
+  position:fixed; bottom:0; left:0; right:0;
+  background: linear-gradient(135deg, #0a0a0a 0%, #111111 50%, #0a0a0a 100%);
+  color:#fff;
+  padding:0;
+  z-index:99999;
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.5);
+  font-family: system-ui, -apple-system, sans-serif;
+  border-top: 1px solid rgba(255,255,255,0.08);
+">
+  <div style="
+    max-width:1200px;
+    margin:0 auto;
+    padding:18px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    flex-wrap:wrap;
+  ">
+    <!-- Links: Demo Badge + Text -->
+    <div style="flex:1; min-width:300px; display:flex; align-items:center; gap:16px;">
+      
+      <!-- Demo Badge -->
+      <div style="
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius:8px;
+        padding:8px 12px;
+        text-align:center;
+        flex-shrink:0;
+      ">
+        <div style="font-size:10px; color:#888; text-transform:uppercase; letter-spacing:1px;">Demo</div>
+        <div style="font-size:13px; font-weight:700; color:#fff;">Preview</div>
+      </div>
+      
+      <!-- Text -->
+      <div>
+        <div style="font-size:15px; font-weight:700; color:#fff; line-height:1.3;">
+          Das ist nur ein <span style="color:#a78bfa;">Vorgeschmack</span>.
+        </div>
+        <div style="font-size:13px; color:#9ca3af; margin-top:3px; line-height:1.4;">
+          Ihre Premium-Website wird <span style="color:#10b981;">individuell designed</span>, conversionoptimiert und strategisch aufgebaut.
+        </div>
+      </div>
+    </div>
+
+    <!-- Rechts: Buttons -->
+    <div style="display:flex; gap:12px; align-items:center; flex-shrink:0;">
+      
+      <!-- Primary CTA -->
+      <a href="https://calendly.com/agentflowm/15min" target="_blank" rel="noopener" style="
+        padding:14px 28px;
+        background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 50%, #c4b5fd 100%);
+        color:#fff;
+        text-decoration:none;
+        border-radius:10px;
+        font-weight:700;
+        font-size:14px;
+        box-shadow: 0 4px 20px rgba(139,92,246,0.4), 0 0 40px rgba(139,92,246,0.2);
+        white-space:nowrap;
+        transition: all 0.2s ease;
+      ">Premium-Version anfragen</a>
+
+      <!-- Secondary -->
+      <a href="https://www.agentflowm.de" target="_blank" rel="noopener" style="
+        padding:14px 20px;
+        background: rgba(255,255,255,0.05);
+        color:#fff;
+        text-decoration:none;
+        border-radius:10px;
+        font-weight:600;
+        font-size:14px;
+        border: 1px solid rgba(255,255,255,0.15);
+        white-space:nowrap;
+      ">Mehr erfahren</a>
+      
+    </div>
+  </div>
+  
+  <!-- Bottom Line: AgentFlow Branding -->
+  <div style="
+    background: rgba(0,0,0,0.3);
+    padding:10px 24px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  ">
+    <div style="
+      max-width:1200px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:12px;
+    ">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:12px; color:#666;">Erstellt von</span>
+        <span style="
+          font-size:13px;
+          font-weight:700;
+          background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        ">AgentFlowMarketing</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:16px; font-size:12px; color:#666;">
+        <span>✓ Festpreise</span>
+        <span>✓ In 7 Tagen live</span>
+        <a href="mailto:kontakt@agentflowm.de" style="color:#888; text-decoration:none;">kontakt@agentflowm.de</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="wz-banner-spacer" style="height:120px"></div>
+
+</body>
+</html>
